@@ -27,5 +27,4 @@ public class AuthController {
     public AuthenticationResponse login(@Valid @RequestBody AuthenticationRequest user) {
         return authenticationService.login(user);
     }
-
 }
