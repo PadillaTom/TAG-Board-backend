@@ -5,7 +5,7 @@ import com.padillatom.TAG_Board.dto.request.RegisterRequest;
 import com.padillatom.TAG_Board.dto.response.AuthenticationResponse;
 import com.padillatom.TAG_Board.model.User;
 import com.padillatom.TAG_Board.repository.UserRepository;
-import com.padillatom.TAG_Board.security.JwtService;
+import com.padillatom.TAG_Board.utils.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +22,7 @@ public class CustomAuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest registerDetails) {
@@ -34,7 +34,7 @@ public class CustomAuthenticationService {
             registerDetails.setPassword(passwordEncoder.encode(registerDetails.getPassword()));
             User savedUser = userRepository.save(RegisterRequest.toEntity(registerDetails));
             userRepository.flush();
-            String jwt = jwtService.generateToken(savedUser.getUsername());
+            String jwt = jwtUtil.generate(savedUser.getUsername());
 
             return AuthenticationResponse.toDto(jwt);
         }
@@ -43,7 +43,7 @@ public class CustomAuthenticationService {
     public AuthenticationResponse login(AuthenticationRequest loginDetails) {
         UsernamePasswordAuthenticationToken token  = new UsernamePasswordAuthenticationToken(loginDetails.getUsername(), loginDetails.getPassword());
         authenticationManager.authenticate(token);
-        String jwt = jwtService.generateToken(loginDetails.getUsername());
+        String jwt = jwtUtil.generate((loginDetails.getUsername()));
 
         return AuthenticationResponse.toDto(jwt);
     }
