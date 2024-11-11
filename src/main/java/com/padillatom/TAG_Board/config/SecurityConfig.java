@@ -32,11 +32,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                                 // Test Endpoints
-                                .requestMatchers(HttpMethod.GET, "/api/v1/test").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/test/admin").hasRole(ROLE_ADMIN)
                                 .requestMatchers(HttpMethod.GET, "/api/v1/test/user").hasRole(ROLE_USER)
                                 // Any
-                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)

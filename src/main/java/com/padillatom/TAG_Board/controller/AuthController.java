@@ -1,6 +1,7 @@
 package com.padillatom.TAG_Board.controller;
 
 import com.padillatom.TAG_Board.dto.request.AuthenticationRequest;
+import com.padillatom.TAG_Board.dto.request.RegisterRequest;
 import com.padillatom.TAG_Board.dto.response.AuthenticationResponse;
 import com.padillatom.TAG_Board.service.CustomAuthenticationService;
 import jakarta.validation.Valid;
@@ -17,8 +18,8 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public String register(@Valid @RequestBody String user) {
-        return "Hola";
+    public AuthenticationResponse register(@Valid @RequestBody RegisterRequest user) {
+        return authenticationService.register(user);
     }
 
     @PostMapping("/login")

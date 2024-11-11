@@ -11,7 +11,6 @@ public class AuthenticationResponse {
 
     public static AuthenticationResponse toDto(String token) {
         if (token == null) return null;
-
         return AuthenticationResponse.builder()
                 .jwt(token)
                 .build();
