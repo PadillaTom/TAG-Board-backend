@@ -16,12 +16,12 @@ public class RegisterRequest {
 
     @NotNull
     @NotEmpty
-    @Size(min = 6, max = 20)
+    @Size(min = 6)
     private String username;
 
     @NotNull
     @NotEmpty
-    @Size(min = 6, max = 20)
+    @Size(min = 6)
     private String password;
 
     @NotNull

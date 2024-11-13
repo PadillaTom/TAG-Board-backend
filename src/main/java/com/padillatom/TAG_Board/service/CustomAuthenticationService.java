@@ -9,6 +9,7 @@ import com.padillatom.TAG_Board.utils.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class CustomAuthenticationService {
         var matchingUser = userRepository.findByUsername(registerDetails.getUsername());
 
         if (matchingUser.isPresent()) {
-            throw new IllegalArgumentException(REGISTER_EMAIL_IN_USE_MESSAGE);
+            throw new BadCredentialsException(REGISTER_EMAIL_IN_USE_MESSAGE);
         } else {
             registerDetails.setPassword(passwordEncoder.encode(registerDetails.getPassword()));
             User savedUser = userRepository.save(RegisterRequest.toEntity(registerDetails));
