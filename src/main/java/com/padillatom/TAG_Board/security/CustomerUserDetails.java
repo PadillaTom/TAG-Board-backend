@@ -1,6 +1,6 @@
 package com.padillatom.TAG_Board.security;
 
-import com.padillatom.TAG_Board.model.User;
+import com.padillatom.TAG_Board.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,22 +11,22 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class CustomerUserDetails implements UserDetails {
 
-    private final User user;
+    private final UserEntity userEntity;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream()
+        return userEntity.getRoles().stream()
                 .map(auth -> new SimpleGrantedAuthority(auth.getRole()))
                 .toList();
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return userEntity.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return userEntity.getUsername();
     }
 }

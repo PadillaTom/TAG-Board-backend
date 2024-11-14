@@ -1,26 +1,27 @@
 package com.padillatom.TAG_Board.controller;
 
+import com.padillatom.TAG_Board.config.AppConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/test")
+@RequestMapping
 @RequiredArgsConstructor
 public class TestController {
 
-    @GetMapping("/")
+    @GetMapping(AppConstants.TEST_API_URL)
     public String testAll() {
         return "Bienvenido - ANY";
     }
 
-    @GetMapping("/user")
+    @GetMapping(AppConstants.TEST_USER_API_URL)
     public String testUser() {
         return "Bienvenido - ROLE_USER";
     }
 
-    @GetMapping("/admin")
+    @GetMapping(AppConstants.TEST_ADMIN_API_URL)
     public String testAdmin() {
         return "Bienvenido - ROLE_ADMIN";
     }

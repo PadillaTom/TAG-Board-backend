@@ -3,7 +3,9 @@ package com.padillatom.TAG_Board.service;
 import com.padillatom.TAG_Board.dto.request.AuthenticationRequest;
 import com.padillatom.TAG_Board.dto.request.RegisterRequest;
 import com.padillatom.TAG_Board.dto.response.AuthenticationResponse;
-import com.padillatom.TAG_Board.model.User;
+import com.padillatom.TAG_Board.model.Profile;
+import com.padillatom.TAG_Board.model.UserEntity;
+import com.padillatom.TAG_Board.repository.ProfileRepository;
 import com.padillatom.TAG_Board.repository.UserRepository;
 import com.padillatom.TAG_Board.utils.JwtUtil;
 import jakarta.transaction.Transactional;
@@ -21,6 +23,7 @@ public class CustomAuthenticationService {
     private static final String REGISTER_EMAIL_IN_USE_MESSAGE = "Esta dirección de correo electrónico ya está registrada.";
 
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
@@ -33,9 +36,12 @@ public class CustomAuthenticationService {
             throw new BadCredentialsException(REGISTER_EMAIL_IN_USE_MESSAGE);
         } else {
             registerDetails.setPassword(passwordEncoder.encode(registerDetails.getPassword()));
-            User savedUser = userRepository.save(RegisterRequest.toEntity(registerDetails));
+            UserEntity savedUserEntity = userRepository.save(RegisterRequest.toEntity(registerDetails));
             userRepository.flush();
-            String jwt = jwtUtil.generate(savedUser.getUsername());
+
+            profileRepository.save(Profile.builder().userEntity(savedUserEntity).build());
+
+            String jwt = jwtUtil.generate(savedUserEntity.getUsername());
 
             return AuthenticationResponse.toDto(jwt);
         }

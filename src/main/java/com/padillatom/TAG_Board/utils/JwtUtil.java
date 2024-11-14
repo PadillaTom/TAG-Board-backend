@@ -1,6 +1,6 @@
 package com.padillatom.TAG_Board.utils;
 
-import com.padillatom.TAG_Board.config.SecurityConstants;
+import com.padillatom.TAG_Board.config.AppConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -13,14 +13,14 @@ import java.util.Date;
 @Service
 public class JwtUtil {
 
-    SecretKey secretKey = Keys.hmacShaKeyFor(SecurityConstants.SECRET.getBytes(StandardCharsets.UTF_8));
+    SecretKey secretKey = Keys.hmacShaKeyFor(AppConstants.SECRET.getBytes(StandardCharsets.UTF_8));
 
     public String generate(String username) {
         return Jwts.builder()
                 .subject(username)
-                .issuer(SecurityConstants.ISSUER)
+                .issuer(AppConstants.ISSUER)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+                .expiration(new Date(System.currentTimeMillis() + AppConstants.EXPIRATION_TIME))
                 .signWith(secretKey)
                 .compact();
     }

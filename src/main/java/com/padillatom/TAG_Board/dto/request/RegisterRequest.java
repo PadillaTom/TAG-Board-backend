@@ -1,16 +1,18 @@
 package com.padillatom.TAG_Board.dto.request;
 
 import com.padillatom.TAG_Board.model.Role;
-import com.padillatom.TAG_Board.model.User;
+import com.padillatom.TAG_Board.model.UserEntity;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class RegisterRequest {
 
@@ -27,8 +29,8 @@ public class RegisterRequest {
     @NotNull
     private Integer roleId;
 
-    public static User toEntity(RegisterRequest req) {
-        return User.builder()
+    public static UserEntity toEntity(RegisterRequest req) {
+        return UserEntity.builder()
                 .username(req.getUsername())
                 .password(req.getPassword())
                 .roles(List.of(Role.builder().id(req.getRoleId()).build()))

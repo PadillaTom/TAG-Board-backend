@@ -36,11 +36,17 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                         request -> request
                                 // Auth
-                                .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, AppConstants.REGISTER_API_URL).permitAll()
+                                .requestMatchers(HttpMethod.POST, AppConstants.LOGIN_API_URL).permitAll()
                                 // Test Endpoints
-                                .requestMatchers(HttpMethod.GET, "/api/v1/test/admin").hasRole(ROLE_ADMIN)
-                                .requestMatchers(HttpMethod.GET, "/api/v1/test/user").hasRole(ROLE_USER)
+                                .requestMatchers(HttpMethod.GET, AppConstants.TEST_ADMIN_API_URL).hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.GET, AppConstants.TEST_USER_API_URL).hasRole(ROLE_USER)
+                                // Profile
+                                .requestMatchers(HttpMethod.POST, AppConstants.PROFILE_API_URL).authenticated()
+                                .requestMatchers(HttpMethod.GET, AppConstants.PROFILE_API_URL +
+                                        AppConstants.BY_ID_PARAM).authenticated()
+                                .requestMatchers(HttpMethod.GET, AppConstants.PROFILE_API_URL +
+                                        AppConstants.IMAGE_BY_PROFILE_ID).authenticated()
                                 // Any
                                 .anyRequest().permitAll())
                 .httpBasic(AbstractHttpConfigurer::disable)
