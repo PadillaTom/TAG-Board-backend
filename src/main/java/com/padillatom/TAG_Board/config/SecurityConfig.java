@@ -46,7 +46,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, AppConstants.PROFILE_API_URL +
                                         AppConstants.BY_ID_PARAM).authenticated()
                                 .requestMatchers(HttpMethod.GET, AppConstants.PROFILE_API_URL +
-                                        AppConstants.IMAGE_BY_PROFILE_ID).authenticated()
+                                        AppConstants.IMAGE_BY_PROFILE_ID).permitAll()
                                 // Any
                                 .anyRequest().permitAll())
                 .httpBasic(AbstractHttpConfigurer::disable)
