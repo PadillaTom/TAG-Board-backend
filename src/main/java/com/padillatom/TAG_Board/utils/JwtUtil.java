@@ -1,17 +1,27 @@
 package com.padillatom.TAG_Board.utils;
 
 import com.padillatom.TAG_Board.config.AppConstants;
+import com.padillatom.TAG_Board.model.UserEntity;
+import com.padillatom.TAG_Board.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class JwtUtil {
+
+    public final UserRepository userRepository;
 
     SecretKey secretKey = Keys.hmacShaKeyFor(AppConstants.SECRET.getBytes(StandardCharsets.UTF_8));
 
@@ -41,5 +51,14 @@ public class JwtUtil {
 
     private Claims getClaims(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+    }
+
+    public String getContextUsernameWithJWT() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserEntity userEntity = userRepository.findByUsername(((User) authentication.getPrincipal()).getUsername())
+                .orElseThrow(() -> new NoSuchElementException("No se encuentra el usuario"));
+
+        return userEntity.getUsername();
     }
 }

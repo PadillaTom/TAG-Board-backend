@@ -4,38 +4,41 @@ import com.padillatom.TAG_Board.dto.request.ProfileRequest;
 import com.padillatom.TAG_Board.dto.response.ImageResponse;
 import com.padillatom.TAG_Board.dto.response.ProfileResponse;
 import com.padillatom.TAG_Board.model.Profile;
-import com.padillatom.TAG_Board.model.UserEntity;
 import com.padillatom.TAG_Board.repository.ProfileRepository;
-import com.padillatom.TAG_Board.repository.UserRepository;
+import com.padillatom.TAG_Board.utils.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
 
     private static final String PROFILE_NOT_FOUND = "No se encuentra el perfil.";
+    private static final String PROFILE_IMAGE_NOT_FOUND = "No se encuentra la imagen.";
 
+    private final JwtUtil jwtUtil;
     private final ProfileRepository profileRepository;
-    private final UserRepository userRepository;
+
+    @Transactional
+    private Profile findOrElse(Optional<Profile> optionalProfile) {
+        return optionalProfile.orElseThrow(() -> new NoSuchElementException(PROFILE_NOT_FOUND));
+    }
+
+    @Transactional
+    public ProfileResponse findMy() {
+        return ProfileResponse
+                .toDto(findOrElse(profileRepository.findFirstByUserEntityUsername(jwtUtil.getContextUsernameWithJWT())));
+    }
 
     @Transactional
     public ProfileResponse update(ProfileRequest request) throws IOException {
+        Profile profile = findOrElse(profileRepository.findFirstByUserEntityUsername(jwtUtil.getContextUsernameWithJWT()));
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserEntity userEntity = userRepository.findByUsername(((User) authentication.getPrincipal()).getUsername())
-                .orElseThrow(() -> new NoSuchElementException("No se encuentra el usuario"));
-
-        Profile profile = profileRepository.findFirstByUserEntityUsername(userEntity.getUsername())
-                .orElseThrow(() -> new NoSuchElementException(PROFILE_NOT_FOUND));
         profile.setName(request.getName());
         profile.setLastName(request.getLastName());
         profile.setPhone(request.getPhone());
@@ -46,18 +49,14 @@ public class ProfileService {
     }
 
     public ProfileResponse findById(Long id) {
-        Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(PROFILE_NOT_FOUND));
-
-        return ProfileResponse.toDto(profile);
+        return ProfileResponse.toDto(findOrElse(profileRepository.findById(id)));
     }
 
     public byte[] findProfileImage(Long id) {
-        Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("No se encuentra el profile"));
+        Profile profile = findOrElse(profileRepository.findById(id));
 
         if (profile.getImageData() == null) {
-            throw new NoSuchElementException("La imagen no existe.");
+            throw new NoSuchElementException(PROFILE_IMAGE_NOT_FOUND);
         }
 
         return ImageResponse.toDto(profile.getImageData()).getImageData();

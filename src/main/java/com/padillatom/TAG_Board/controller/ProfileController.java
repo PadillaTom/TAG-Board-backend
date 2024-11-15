@@ -19,13 +19,18 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
+    @GetMapping
+    public ProfileResponse get() {
+        return profileService.findMy();
+    }
+
     @PutMapping
     public ProfileResponse update(@Valid @ModelAttribute ProfileRequest request) throws IOException {
         return profileService.update(request);
     }
 
     @GetMapping(AppConstants.BY_ID_PARAM)
-    public ProfileResponse get(@PathVariable Long id) {
+    public ProfileResponse getById(@PathVariable Long id) {
         return profileService.findById(id);
     }
 
