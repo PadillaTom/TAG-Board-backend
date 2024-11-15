@@ -23,12 +23,13 @@ public class ProfileResponse {
     private String email;
 
     public static ProfileResponse toDto(Profile entity) {
+        String imageUrl = "http://localhost:8080/api/v1/profile/" + entity.getId() + "/image";
         return ProfileResponse.builder()
                 .name(entity.getName())
                 .lastName(entity.getLastName())
                 .phone(entity.getPhone())
                 .bio(entity.getBio())
-                .imageUrl("http://localhost:8080/api/v1/profile/" + entity.getId() + "/image")
+                .imageUrl(entity.getImageData() == null ? null : imageUrl)
                 .email(entity.getUserEntity().getUsername())
                 .build();
     }
