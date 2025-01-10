@@ -16,11 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.padillatom.TAG_Board.config.UserConstants.BAD_CREDENTIALS;
+import static com.padillatom.TAG_Board.config.UserConstants.REGISTER_EMAIL_IN_USE_MESSAGE;
+
 @Service
 @RequiredArgsConstructor
 public class CustomAuthenticationService {
-
-    private static final String REGISTER_EMAIL_IN_USE_MESSAGE = "Esta dirección de correo electrónico ya está registrada.";
 
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
@@ -48,10 +49,13 @@ public class CustomAuthenticationService {
     }
 
     public AuthenticationResponse login(AuthenticationRequest loginDetails) {
-        UsernamePasswordAuthenticationToken token  = new UsernamePasswordAuthenticationToken(loginDetails.getUsername(), loginDetails.getPassword());
-        authenticationManager.authenticate(token);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDetails.getUsername(), loginDetails.getPassword());
+        try {
+            authenticationManager.authenticate(token);
+        } catch (Exception exception) {
+            throw new BadCredentialsException(BAD_CREDENTIALS);
+        }
         String jwt = jwtUtil.generate((loginDetails.getUsername()));
-
         return AuthenticationResponse.toDto(jwt);
     }
 }

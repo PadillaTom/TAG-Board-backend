@@ -46,7 +46,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiExceptionResponse> badCredentialsExceptionHandler(BadCredentialsException badCredentialsException) {
         var apiException = ApiExceptionResponse.builder()
                 .httpStatus(HttpStatus.UNAUTHORIZED.value())
-                .message(StringUtils.uppercaseFirstCharacter(badCredentialsException.getMessage()))
+                .message(badCredentialsException.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiException);
     }

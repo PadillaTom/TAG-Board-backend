@@ -25,11 +25,6 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
 
     @Transactional
-    private Profile findOrElse(Optional<Profile> optionalProfile) {
-        return optionalProfile.orElseThrow(() -> new NoSuchElementException(PROFILE_NOT_FOUND));
-    }
-
-    @Transactional
     public ProfileResponse findMy() {
         return ProfileResponse
                 .toDto(findOrElse(profileRepository.findFirstByUserEntityUsername(jwtUtil.getContextUsernameWithJWT())));
@@ -60,5 +55,10 @@ public class ProfileService {
         }
 
         return ImageResponse.toDto(profile.getImageData()).getImageData();
+    }
+
+    @Transactional
+    private Profile findOrElse(Optional<Profile> optionalProfile) {
+        return optionalProfile.orElseThrow(() -> new NoSuchElementException(PROFILE_NOT_FOUND));
     }
 }
