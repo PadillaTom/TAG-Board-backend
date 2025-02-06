@@ -16,7 +16,7 @@ public class CustomerUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return userEntity.getRoles().stream()
-                .map(auth -> new SimpleGrantedAuthority(auth.getRole()))
+                .map(auth -> new SimpleGrantedAuthority(auth.getName()))
                 .toList();
     }
 

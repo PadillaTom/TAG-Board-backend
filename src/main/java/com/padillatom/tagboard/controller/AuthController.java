@@ -1,5 +1,6 @@
 package com.padillatom.tagboard.controller;
 
+import com.padillatom.tagboard.config.AppConstants;
 import com.padillatom.tagboard.dto.request.AuthenticationRequest;
 import com.padillatom.tagboard.dto.request.RegisterRequest;
 import com.padillatom.tagboard.dto.response.AuthenticationResponse;

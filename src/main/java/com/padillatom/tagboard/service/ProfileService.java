@@ -1,11 +1,11 @@
-package com.padillatom.TAG_Board.service;
+package com.padillatom.tagboard.service;
 
-import com.padillatom.TAG_Board.dto.request.ProfileRequest;
-import com.padillatom.TAG_Board.dto.response.ImageResponse;
-import com.padillatom.TAG_Board.dto.response.ProfileResponse;
-import com.padillatom.TAG_Board.model.Profile;
-import com.padillatom.TAG_Board.repository.ProfileRepository;
-import com.padillatom.TAG_Board.utils.JwtUtil;
+import com.padillatom.tagboard.dto.request.ProfileRequest;
+import com.padillatom.tagboard.dto.response.ImageResponse;
+import com.padillatom.tagboard.dto.response.ProfileResponse;
+import com.padillatom.tagboard.model.Profile;
+import com.padillatom.tagboard.repository.ProfileRepository;
+import com.padillatom.tagboard.utils.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

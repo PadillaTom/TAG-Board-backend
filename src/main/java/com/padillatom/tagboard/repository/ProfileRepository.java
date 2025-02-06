@@ -1,6 +1,6 @@
-package com.padillatom.TAG_Board.repository;
+package com.padillatom.tagboard.repository;
 
-import com.padillatom.TAG_Board.model.Profile;
+import com.padillatom.tagboard.model.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

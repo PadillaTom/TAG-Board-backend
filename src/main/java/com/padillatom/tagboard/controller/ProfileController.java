@@ -1,9 +1,9 @@
-package com.padillatom.TAG_Board.controller;
+package com.padillatom.tagboard.controller;
 
-import com.padillatom.TAG_Board.config.AppConstants;
-import com.padillatom.TAG_Board.dto.request.ProfileRequest;
-import com.padillatom.TAG_Board.dto.response.ProfileResponse;
-import com.padillatom.TAG_Board.service.ProfileService;
+import com.padillatom.tagboard.config.AppConstants;
+import com.padillatom.tagboard.dto.request.ProfileRequest;
+import com.padillatom.tagboard.dto.response.ProfileResponse;
+import com.padillatom.tagboard.service.ProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

@@ -1,6 +1,6 @@
-package com.padillatom.TAG_Board.dto.request;
+package com.padillatom.tagboard.dto.request;
 
-import com.padillatom.TAG_Board.model.Profile;
+import com.padillatom.tagboard.model.Profile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

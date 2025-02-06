@@ -1,4 +1,4 @@
-package com.padillatom.TAG_Board.dto.response;
+package com.padillatom.tagboard.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

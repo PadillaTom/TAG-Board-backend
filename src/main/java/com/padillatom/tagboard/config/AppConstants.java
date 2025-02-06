@@ -1,4 +1,4 @@
-package com.padillatom.TAG_Board.config;
+package com.padillatom.tagboard.config;
 
 public class AppConstants {
 

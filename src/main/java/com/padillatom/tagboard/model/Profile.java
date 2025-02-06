@@ -1,10 +1,9 @@
-package com.padillatom.TAG_Board.model;
+package com.padillatom.tagboard.model;
 
-import com.padillatom.TAG_Board.model.abstracts.Auditable;
+import com.padillatom.tagboard.model.abstracts.Auditable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,7 +16,6 @@ import java.io.Serializable;
 @Builder
 @Table(name = "profile")
 @SQLDelete(sql = "UPDATE profile SET deleted = true WHERE id=?")
-@Where(clause = "deleted = false")
 public class Profile extends Auditable implements Serializable {
 
     @Serial
