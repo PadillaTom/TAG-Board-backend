@@ -15,7 +15,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "users")
+@Table(name = "user_account")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 public class UserEntity extends Auditable implements Serializable {
 
@@ -26,12 +26,11 @@ public class UserEntity extends Auditable implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false, unique = true)
     private String password;
-
-    @Builder.Default
-    private boolean deleted = false;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",

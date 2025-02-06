@@ -4,12 +4,11 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import lombok.Data;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.OffsetDateTime;
-
-import static java.util.Optional.ofNullable;
 
 @Data
 @MappedSuperclass
@@ -27,6 +26,12 @@ public abstract class Auditable {
 
     @PrePersist
     public void onPrePersist() {
+
+        // Set createdDate if you want it always consistent with DB time or current time
+        if (this.createdDate == null) {
+            this.createdDate = OffsetDateTime.now();
+        }
+
         this.createdBy = getUsername();
     }
 
@@ -37,7 +42,10 @@ public abstract class Auditable {
     }
 
     private String getUsername() {
-        return ofNullable(SecurityContextHolder.getContext().getAuthentication())
-                .map(Authentication::getName).orElse("Anonymous");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
+            return "Anonymous or System";
+        }
+        return auth.getName();
     }
 }

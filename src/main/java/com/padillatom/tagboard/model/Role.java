@@ -30,7 +30,4 @@ public class Role extends Auditable implements Serializable {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
-    @Builder.Default
-    private boolean deleted = false;
 }
