@@ -21,6 +21,8 @@ public class ProfileRequest {
 
     private String bio;
 
+    private String nickname;
+
     private MultipartFile imageFile;
 
     public static Profile toEntity(ProfileRequest req) throws IOException {

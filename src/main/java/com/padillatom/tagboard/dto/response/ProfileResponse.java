@@ -10,6 +10,8 @@ import lombok.Setter;
 @Builder
 public class ProfileResponse {
 
+    private String email;
+
     private String name;
 
     private String lastName;
@@ -18,19 +20,21 @@ public class ProfileResponse {
 
     private String bio;
 
+    private String nickname;
+
     private String imageUrl;
 
-    private String email;
 
     public static ProfileResponse toDto(Profile entity) {
         String imageUrl = "http://localhost:8080/api/v1/profile/" + entity.getId() + "/image";
         return ProfileResponse.builder()
+                .email(entity.getUserEntity().getUsername())
+                .nickname(entity.getNickname())
                 .name(entity.getName())
                 .lastName(entity.getLastName())
                 .phone(entity.getPhone())
                 .bio(entity.getBio())
                 .imageUrl(entity.getImageData() == null ? null : imageUrl)
-                .email(entity.getUserEntity().getUsername())
                 .build();
     }
 }

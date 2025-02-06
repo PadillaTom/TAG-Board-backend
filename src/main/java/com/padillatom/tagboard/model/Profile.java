@@ -33,6 +33,8 @@ public class Profile extends Auditable implements Serializable {
 
     private String bio;
 
+    private String nickname;
+
     @Lob
     private byte[] imageData;
 
