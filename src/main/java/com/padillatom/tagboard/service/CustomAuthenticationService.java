@@ -16,8 +16,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.padillatom.TAG_Board.config.UserConstants.BAD_CREDENTIALS;
-import static com.padillatom.TAG_Board.config.UserConstants.REGISTER_EMAIL_IN_USE_MESSAGE;
+import static com.padillatom.tagboard.config.UserConstants.BAD_CREDENTIALS;
+import static com.padillatom.tagboard.config.UserConstants.REGISTER_EMAIL_IN_USE_MESSAGE;
 
 @Service
 @RequiredArgsConstructor
