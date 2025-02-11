@@ -25,9 +25,10 @@ public class JwtUtil {
 
     SecretKey secretKey = Keys.hmacShaKeyFor(AppConstants.SECRET.getBytes(StandardCharsets.UTF_8));
 
-    public String generate(String username) {
+    public String generate(String username, String roles) {
         return Jwts.builder()
                 .subject(username)
+                .claim("role", roles)
                 .issuer(AppConstants.ISSUER)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + AppConstants.EXPIRATION_TIME))
@@ -42,6 +43,11 @@ public class JwtUtil {
     public String getUsername(String token) {
         Claims claims = getClaims(token);
         return claims.getSubject();
+    }
+
+    public String getRole(String token) {
+        Claims claims = getClaims(token);
+        return claims.get("role", String.class); // ✅ Extract role claim from JWT
     }
 
     public boolean isExpired(String token) {
