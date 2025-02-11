@@ -2,9 +2,10 @@ spring:
   application:
     name: TAG-Board
   datasource:
-    url: jdbc:postgresql://${DB_URL:localhost:5434}/tag-board-db
-    username: ${DB_USER:postgres}
+    url: jdbc:mysql://${DB_URL:localhost}:${DB_PORT:3306}/${DB_NAME:tag-board-db}
+    username: ${DB_USER:root}
     password: ${DB_PASS:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,12 +13,40 @@ spring:
     generate-ddl: true
     properties:
       hibernate:
-      dialect: org.hibernate.dialect.PostgreSQLDialect
+      dialect: org.hibernate.dialect.MySQL8Dialect
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
 
-
 server:
   port: ${PORT:8080}
+
+
+############################
+# PostgresSQL config
+############################
+
+#spring:
+#  application:
+#    name: TAG-Board
+#  datasource:
+#    url: jdbc:postgresql://${DB_URL:localhost}:${DB_PORT:5434}/${DB_NAME:tag-board-db}
+#    username: ${DB_USER:postgres}
+#    password: ${DB_PASS:root}
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    generate-ddl: true
+#    properties:
+#      hibernate:
+#      dialect: org.hibernate.dialect.PostgreSQLDialect
+#  servlet:
+#    multipart:
+#      max-file-size: 10MB
+#      max-request-size: 10MB
+#
+#
+#server:
+#  port: ${PORT:8080}
