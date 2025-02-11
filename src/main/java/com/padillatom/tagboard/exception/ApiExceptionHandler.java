@@ -24,7 +24,7 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final String CONSTRAINT_VIOLATIONS_MESSAGE = "Constraint Violations";
+    private static final String CONSTRAINT_VIOLATIONS_MESSAGE = "Error en la request.";
 
     /*
      * ============================================

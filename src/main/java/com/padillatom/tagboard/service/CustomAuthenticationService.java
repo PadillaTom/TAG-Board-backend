@@ -71,12 +71,20 @@ public class CustomAuthenticationService {
 
     public AuthenticationResponse login(AuthenticationRequest loginDetails) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDetails.getUsername(), loginDetails.getPassword());
+        UserEntity authUser;
+
         try {
-            authenticationManager.authenticate(token);
+            authUser = (UserEntity) authenticationManager.authenticate(token);
         } catch (Exception exception) {
             throw new BadCredentialsException(BAD_CREDENTIALS);
         }
-        String jwt = jwtUtil.generate((loginDetails.getUsername()));
+
+        // Convert roles to a list of role names for JWT (e.g., ["ADMIN", "USER"])
+        String roles = authUser.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(","));
+
+        String jwt = jwtUtil.generate(loginDetails.getUsername(), roles);
         return AuthenticationResponse.toDto(jwt);
     }
 }

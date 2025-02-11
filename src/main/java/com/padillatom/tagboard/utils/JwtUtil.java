@@ -47,7 +47,7 @@ public class JwtUtil {
 
     public String getRole(String token) {
         Claims claims = getClaims(token);
-        return claims.get("role", String.class); // ✅ Extract role claim from JWT
+        return claims.get("role", String.class);
     }
 
     public boolean isExpired(String token) {
