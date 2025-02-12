@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -71,17 +73,16 @@ public class CustomAuthenticationService {
 
     public AuthenticationResponse login(AuthenticationRequest loginDetails) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDetails.getUsername(), loginDetails.getPassword());
-        UserEntity authUser;
+        Authentication auth;
 
         try {
-            authUser = (UserEntity) authenticationManager.authenticate(token);
+            auth = authenticationManager.authenticate(token);
         } catch (Exception exception) {
             throw new BadCredentialsException(BAD_CREDENTIALS);
         }
 
-        // Convert roles to a list of role names for JWT (e.g., ["ADMIN", "USER"])
-        String roles = authUser.getRoles().stream()
-                .map(Role::getName)
+        String roles = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority) // Extract role names
                 .collect(Collectors.joining(","));
 
         String jwt = jwtUtil.generate(loginDetails.getUsername(), roles);
